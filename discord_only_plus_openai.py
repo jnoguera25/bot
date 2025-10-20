@@ -20,7 +20,7 @@ if not OPENAI_API_KEY:
     raise ValueError("❌ La variable OPENAI_API_KEY no está configurada en Railway.")
 
 # === Inicializar cliente de OpenAI ===
-oa_client = AsyncOpenAI(api_key=OPENAI_API_KEY
+oa_client = AsyncOpenAI(api_key=OPENAI_API_KEY)
 # === Configurar cliente de Discord ===
 intents = discord.Intents.default()
 intents.message_content = True
