@@ -10,7 +10,7 @@ DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 
-print(f"🔍 Primeros 10 caracteres del token: {DISCORD_TOKEN[:10] if DISCORD_TOKEN else 'No encontrado'}")
+# print(f"🔍 Primeros 10 caracteres del token: {DISCORD_TOKEN[:10] if DISCORD_TOKEN else 'No encontrado'}")
 
 
 # === Validación de seguridad ===
@@ -20,8 +20,7 @@ if not OPENAI_API_KEY:
     raise ValueError("❌ La variable OPENAI_API_KEY no está configurada en Railway.")
 
 # === Inicializar cliente de OpenAI ===
-oa_client = AsyncOpenAI(api_key=OPENAI_API_KEY)
-
+oa_client = AsyncOpenAI(api_key=OPENAI_API_KEY
 # === Configurar cliente de Discord ===
 intents = discord.Intents.default()
 intents.message_content = True
