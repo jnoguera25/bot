@@ -1,0 +1,9 @@
+services:
+  - type: worker
+    name: discord-bot
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python discord_only_plus_openai.py"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.8
