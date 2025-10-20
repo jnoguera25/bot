@@ -1,13 +1,17 @@
-from dotenv import load_dotenv
-from openai import AsyncOpenAI
-import discord
 import os
+import discord
 import asyncio
+from openai import AsyncOpenAI
 
-# --- Cargar variables del entorno (.env) ---
-load_dotenv()
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
+# --- Cargar variables de entorno (solo desde Railway) ---
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+TOKEN = os.environ.get("DISCORD_TOKEN")
+
+# --- Validación de seguridad ---
+if not OPENAI_API_KEY:
+    raise ValueError("❌ OPENAI_API_KEY no está configurada en Railway.")
+if not TOKEN:
+    raise ValueError("❌ DISCORD_TOKEN no está configurada en Railway.")
 
 # --- Inicializar cliente OpenAI ---
 oa_client = AsyncOpenAI(api_key=OPENAI_API_KEY)
@@ -17,8 +21,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
 
-
-# --- Función que llama a la API de OpenAI con timeout y manejo de errores ---
+# --- Función para llamar a OpenAI con manejo de errores y timeout ---
 async def call_openai(question):
     try:
         completion = await asyncio.wait_for(
@@ -31,10 +34,8 @@ async def call_openai(question):
                     },
                 ],
             ),
-            timeout=25  # tiempo máximo de espera en segundos
+            timeout=25
         )
-
-        # Acceso correcto al contenido
         response = completion.choices[0].message.content
         print("Respuesta:", response)
         return response
@@ -47,36 +48,25 @@ async def call_openai(question):
         print(f"❌ Error al llamar a OpenAI: {e}")
         return "❌ Ocurrió un error al procesar tu consulta. Intentá nuevamente más tarde."
 
-
 # --- Eventos de Discord ---
 @client.event
 async def on_ready():
-    print(f"✅ Logged in as {client.user}")
-
+    print(f"✅ Bot conectado como {client.user}")
 
 @client.event
 async def on_message(message):
-    # Ignorar mensajes del propio bot
     if message.author == client.user:
         return
 
-    # Comando personalizado
     if message.content.startswith("$question"):
         question = message.content.split("$question", 1)[1].strip()
-        print(f"🧠 Pregunta: {question}")
+        print(f"🧠 Pregunta recibida: {question}")
 
-        # Llamar a OpenAI
         response = await call_openai(question)
-
-        # Enviar respuesta a Discord
         await message.channel.send(response)
-
 
 # --- Ejecutar bot ---
 if __name__ == "__main__":
-    if not OPENAI_API_KEY:
-        print("⚠️ No se encontró la variable OPENAI_API_KEY en tu archivo .env")
-    elif not DISCORD_TOKEN:
-        print("⚠️ No se encontró la variable TOKEN en tu archivo .env")
-    else:
-        client.run(DISCORD_TOKEN)
+    print("🚀 Iniciando bot de Discord...")
+    print(f"🔍 Token leído (primeros 10 chars): {DISCORD_TOKEN[:10] if DISCORD_TOKEN else 'None'}")
+    client.run(TOKEN)
