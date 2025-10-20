@@ -9,6 +9,10 @@ print("🚀 Iniciando bot de Discord...")
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
+
+print(f"🔍 Primeros 10 caracteres del token: {DISCORD_TOKEN[:10] if DISCORD_TOKEN else 'No encontrado'}")
+
+
 # === Validación de seguridad ===
 if not DISCORD_TOKEN:
     raise ValueError("❌ La variable DISCORD_TOKEN no está configurada en Railway.")
