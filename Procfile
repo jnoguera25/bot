@@ -1,0 +1,1 @@
+worker: python discord_only_plus_openai.py
