@@ -7,7 +7,7 @@ import asyncio
 # --- Cargar variables del entorno (.env) ---
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-DISCORD_TOKEN = os.getenv("TOKEN")
+DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 
 # --- Inicializar cliente OpenAI ---
 oa_client = AsyncOpenAI(api_key=OPENAI_API_KEY)
