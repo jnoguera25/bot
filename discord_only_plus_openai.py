@@ -3,7 +3,7 @@ import discord
 import asyncio
 from openai import AsyncOpenAI
 
-print("🚀 Iniciando bot de Discord...")
+print("🚀 Iniciando bot de Distecna...")
 
 # === Cargar variables del entorno (Railway las lee automáticamente) ===
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
@@ -35,7 +35,7 @@ async def call_openai(message_text):
                         "content": (
                             "Sos un asistente oficial de la empresa Distecna en Buenos Aires, Argentina. "
                             "Tu función es responder preguntas sobre la empresa, sus productos, proyectos, marcas o soporte técnico. "
-                            "Si la consulta no tiene relación con la empresa, respondé amablemente que solo estás autorizado a responder temas relacionados a la empresa."
+                            "Si la consulta no tiene relación con la empresa y sus negocios, respondé amablemente que solo estás autorizado a responder temas relacionados a la empresa."
                         ),
                     },
                     {"role": "user", "content": message_text},
